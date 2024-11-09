@@ -42,20 +42,6 @@ public class Starry implements ModInitializer {
 	public static final Block STARRY_STONE = new Block(FabricBlockSettings.of(Material.METAL).hardness(1.5f));
 	public static final Block LEGEND_ORE = new Block(FabricBlockSettings.of(Material.METAL).hardness(2.5f));
 
-	public static ConfiguredFeature<?, ?> OVERWORLD_LEGEND_ORE_CONFIGURED = new ConfiguredFeature<>
-			(Feature.ORE, new OreFeatureConfig(
-					OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
-					Starry.LEGEND_ORE.getDefaultState(),
-					9
-			));
-
-	public static PlacedFeature OVERWORLD_LEGEND_ORE_PLACED = new PlacedFeature
-			(RegistryEntry.of(OVERWORLD_LEGEND_ORE_CONFIGURED),
-					Arrays.asList(
-							CountPlacementModifier.of(3),
-							SquarePlacementModifier.of(),
-							HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64))
-					));
 
 	@Override
 	public void onInitialize() {
@@ -72,16 +58,6 @@ public class Starry implements ModInitializer {
 		Registry.register(Registry.BLOCK, new Identifier("starry", "legend_ore"), LEGEND_ORE);
 		Registry.register(Registry.ITEM, new Identifier("starry", "legend_ore"), new BlockItem(LEGEND_ORE, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 
-		LOGGER.info("Starry Mod :: Applying world generation changes :: ORE");
-		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,
-				new Identifier("starry", "legend_ore_overworld_configured"),
-				OVERWORLD_LEGEND_ORE_CONFIGURED);
-		Registry.register(BuiltinRegistries.PLACED_FEATURE,
-				new Identifier("starry", "legend_ore_overworld_placed"),
-				OVERWORLD_LEGEND_ORE_PLACED);
-		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
-				RegistryKey.of(Registry.PLACED_FEATURE_KEY,
-						new Identifier("starry", "overworld_legend_ore")));
 	}
 
 	// Item group

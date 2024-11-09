@@ -42,22 +42,49 @@ public class Starry implements ModInitializer {
 	public static final Block STARRY_STONE = new Block(FabricBlockSettings.of(Material.METAL).hardness(1.5f));
 	public static final Block LEGEND_ORE = new Block(FabricBlockSettings.of(Material.METAL).hardness(2.5f));
 
+	private static final ConfiguredFeature<?, ?> ORE_LEGEND_OVERWORLD_CONFIGURED = new ConfiguredFeature<>
+			(Feature.ORE, new OreFeatureConfig(
+					OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
+					Starry.LEGEND_ORE.getDefaultState(),
+			3));
+
+	public static final PlacedFeature ORE_LEGEND_OVERWORLD_PLACED = new PlacedFeature(
+			RegistryEntry.of(ORE_LEGEND_OVERWORLD_CONFIGURED),
+			Arrays.asList(
+				CountPlacementModifier.of(5),
+				SquarePlacementModifier.of(),
+				HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64))
+			));
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("Starry Mod Loaded!");
+		LOGGER.info("Starry Mod >> Starting....");
 
-		LOGGER.info("Starry Mod :: Registering Items");
+		LOGGER.info("Starry Mod >> Stage 1 >> Registering Items");
 		Registry.register(Registry.ITEM, new Identifier("starry", "starry_ingot"), STARRY_INGOT);
 		Registry.register(Registry.ITEM, new Identifier("starry", "legend_ingot"), LEGEND_INGOT);
 
-		LOGGER.info("Starry Mod :: Registering Blocks");
+		LOGGER.info("Starry Mod >> Stage 1 Complete");
+
+		LOGGER.info("Starry Mod >> Stage 2 >> Registering Blocks");
 		Registry.register(Registry.BLOCK, new Identifier("starry", "starry_stone"), STARRY_STONE);
 		Registry.register(Registry.ITEM, new Identifier("starry", "starry_stone"), new BlockItem(STARRY_STONE, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 
 		Registry.register(Registry.BLOCK, new Identifier("starry", "legend_ore"), LEGEND_ORE);
 		Registry.register(Registry.ITEM, new Identifier("starry", "legend_ore"), new BlockItem(LEGEND_ORE, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
 
+		LOGGER.info("Starry Mod >> Stage 2 Complete");
+
+		LOGGER.info("Starry Mod >> Stage 3 >> Worldgen registries");
+		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,
+				new Identifier("starry", "ore_legend_cfgfeat"), ORE_LEGEND_OVERWORLD_CONFIGURED);
+		Registry.register(BuiltinRegistries.PLACED_FEATURE,
+				new Identifier("starry", "ore_legend_plcfeat"), ORE_LEGEND_OVERWORLD_PLACED);
+		BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
+				RegistryKey.of(Registry.PLACED_FEATURE_KEY,
+						new Identifier("starry", "ore_legend_overworld_gen")));
+
+		LOGGER.info("Starry Mod >> Stage 3 Complete");
 	}
 
 	// Item group

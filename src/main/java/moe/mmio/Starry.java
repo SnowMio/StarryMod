@@ -42,14 +42,14 @@ public class Starry implements ModInitializer {
 	public static final Block STARRY_STONE = new Block(FabricBlockSettings.of(Material.METAL).hardness(1.5f));
 	public static final Block LEGEND_ORE = new Block(FabricBlockSettings.of(Material.METAL).hardness(2.5f));
 
-	private static ConfiguredFeature<?, ?> OVERWORLD_LEGEND_ORE_CONFIGURED = new ConfiguredFeature
+	public static ConfiguredFeature<?, ?> OVERWORLD_LEGEND_ORE_CONFIGURED = new ConfiguredFeature<>
 			(Feature.ORE, new OreFeatureConfig(
 					OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
 					Starry.LEGEND_ORE.getDefaultState(),
 					9
 			));
 
-	private static PlacedFeature OVERWORLD_LEGEND_ORE_PLACED = new PlacedFeature
+	public static PlacedFeature OVERWORLD_LEGEND_ORE_PLACED = new PlacedFeature
 			(RegistryEntry.of(OVERWORLD_LEGEND_ORE_CONFIGURED),
 					Arrays.asList(
 							CountPlacementModifier.of(3),

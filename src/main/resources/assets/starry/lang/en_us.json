@@ -1,5 +1,7 @@
 {
   "item.starry.starry_ingot": "Starry Ingot",
   "item.starry.legend_ingot": "Legend Ingot",
-  "block.starry.starry_stone": "Starry Stone"
+  "block.starry.starry_stone": "Starry Stone",
+  "block.starry.legend_ore": "Legend Ore",
+  "itemGroup.starry.starry_item_group": "Starry Mod"
 }
